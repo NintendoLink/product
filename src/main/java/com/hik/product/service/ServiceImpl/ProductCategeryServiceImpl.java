@@ -11,8 +11,13 @@ import java.util.List;
 @Service
 public class ProductCategeryServiceImpl implements ProductCategoryService {
 
+    private final ProductCategoryRepository productCategoryRepository;
+
     @Autowired
-    private ProductCategoryRepository productCategoryRepository;
+    public ProductCategeryServiceImpl(ProductCategoryRepository productCategoryRepository) {
+        this.productCategoryRepository = productCategoryRepository;
+    }
+
     @Override
     public List<ProductCategory> findByCategoryTypeIn(List<Integer> categoryType) {
         return productCategoryRepository.findByCategoryTypeIn(categoryType);

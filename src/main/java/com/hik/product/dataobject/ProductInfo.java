@@ -45,6 +45,19 @@ public class ProductInfo {
      */
     private Integer categoryType;
 
+    /**
+     * 商品库存
+     */
+    private Integer productStock;
+
+    public Integer getProductStock() {
+        return productStock;
+    }
+
+    public void setProductStock(Integer productStock) {
+        this.productStock = productStock;
+    }
+
     public ProductInfo() {
     }
 

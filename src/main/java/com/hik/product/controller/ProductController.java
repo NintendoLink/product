@@ -1,5 +1,6 @@
 package com.hik.product.controller;
 
+import com.hik.product.DTO.CartDTO;
 import com.hik.product.VO.ProductInfoVO;
 import com.hik.product.VO.ProductVO;
 import com.hik.product.VO.ResultVO;
@@ -7,9 +8,12 @@ import com.hik.product.dataobject.ProductCategory;
 import com.hik.product.dataobject.ProductInfo;
 import com.hik.product.service.ProductService;
 import com.hik.product.service.ServiceImpl.ProductCategeryServiceImpl;
+import com.hik.product.service.ServiceImpl.ProductServiceImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -18,11 +22,15 @@ import java.util.List;
 @RestController
 public class ProductController {
 
-    @Autowired
-    private ProductService productService;
+    private final ProductServiceImpl productService;
+
+    private final ProductCategeryServiceImpl categoryService;
 
     @Autowired
-    private ProductCategeryServiceImpl categoryService;
+    public ProductController(ProductServiceImpl productService, ProductCategeryServiceImpl categoryService) {
+        this.productService = productService;
+        this.categoryService = categoryService;
+    }
 
     /**
      * 业务逻辑
@@ -83,5 +91,20 @@ public class ProductController {
 //        ProductInfoVO productInfoVO=new ProductInfoVO();
 //        resultVO.setData(productInfoVO);
         return resultVO;
+    }
+
+    /**
+     * 获取商品列表，专门给订单服务使用
+     * @param productIdList
+     * @return
+     */
+    @PostMapping("/listForOrder")
+    public List<ProductInfo> listForOrder(@RequestBody List<String> productIdList){
+        return productService.findList(productIdList);
+    }
+
+    @PostMapping(value = "/decreaseStock")
+    public void decreaseStock(@RequestBody List<CartDTO> cartDTOList){
+        productService.decreaseStock(cartDTOList);
     }
 }

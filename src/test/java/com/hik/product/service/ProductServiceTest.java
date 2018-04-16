@@ -20,6 +20,9 @@ public class ProductServiceTest {
     @Test
     public void findUpAll() {
         List<ProductInfo> productServiceList=productService.findUpAll();
+        for(ProductInfo productInfo:productServiceList){
+            System.out.println(productInfo);
+        }
         Assert.assertTrue(productServiceList.size()>0);
     }
 }
